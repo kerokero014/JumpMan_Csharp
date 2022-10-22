@@ -21,7 +21,6 @@ namespace JumpMan{
             Console.WriteLine("");
             Console.WriteLine("^^^^^^^^");        
 
-
             Random random = new Random();
             List<string> wordDictionary = new List<string>  {"sunflower", "vitamin", "dog", "diamond", "elephant", "fox", "hurricane", "steak", "superman", "spiderman", "nintendo", "tesla", "colombia", "headphones", "pikachu"};
             int index = random.Next(wordDictionary.Count); 
