@@ -2,9 +2,16 @@
 
 namespace JumpMan{
 class board{
+
+    private string wrong;
+    public string Wrong{
+        get {return wrong;}
+        set {wrong = value;}
+    }
+    
     public static void printHangman(int wrong)
     { 
-
+        
         if(wrong == 0)
         {
             Console.WriteLine("  ___");
