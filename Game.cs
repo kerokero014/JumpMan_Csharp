@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JumpMan{
 
-    class director{
+    internal class director{
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Jumpman");
