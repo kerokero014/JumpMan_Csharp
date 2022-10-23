@@ -24,6 +24,7 @@ namespace JumpMan{
             Random random = new Random();
             List<string> wordDictionary = new List<string>  {"sunflower", "vitamin", "dog", "diamond", "elephant", "fox", "hurricane", "steak", "superman", "spiderman", "nintendo", "tesla", "colombia", "headphones", "pikachu"};
             int index = random.Next(wordDictionary.Count); 
+            
             string randomword = wordDictionary[index];
 
             foreach (char x in randomword)
