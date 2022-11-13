@@ -1,7 +1,7 @@
 using System;
 
 namespace JumpMan{
-    class constructor
+    internal class constructor
     {
         public static void printLines(string randomword)
         {

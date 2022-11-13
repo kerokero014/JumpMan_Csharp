@@ -9,7 +9,7 @@ namespace JumpMan{
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Jumpman");
-            Console.WriteLine("");
+            Console.WriteLine("");   
 
             Console.WriteLine("  ___");
             Console.WriteLine(" /___\\");
@@ -19,7 +19,7 @@ namespace JumpMan{
             Console.WriteLine("  /|\\  ");
             Console.WriteLine("  / \\");
             Console.WriteLine("");
-            Console.WriteLine("^^^^^^^^");        
+            Console.WriteLine("^^^^^^^^");     
 
             Random random = new Random();
             List<string> wordDictionary = new List<string>  {"sunflower", "vitamin", "dog", "diamond", "elephant", "fox", "hurricane", "steak", "superman", "spiderman", "nintendo", "tesla", "colombia", "headphones", "pikachu"};
@@ -39,6 +39,8 @@ namespace JumpMan{
             while (amountOftimesWrong != 6 && currentLettersRight != lengthOfwordToGuess)
             {
                 Console.Write("\nLetters guessed so far:");
+               
+               
                 foreach(char letter in currentLettersGuessed){
                     Console.Write(letter + " ");
                 }

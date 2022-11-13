@@ -1,7 +1,7 @@
 ﻿using System; 
 
 namespace JumpMan{
-class board{
+internal class board{
     public static void printHangman(int wrong)
         {
             if (wrong == 0)

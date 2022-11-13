@@ -1,7 +1,7 @@
 using System;
 
 namespace JumpMan{
-class wordsList{
+internal class wordsList{
 
     public static int printWord(List<char>guessedLetters, string randomword)
     {
