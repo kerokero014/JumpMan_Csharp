@@ -1,19 +1,14 @@
-using jumper.Game;
+using System;
+using game;
 
-namespace jumper
+namespace Program
 {
-
-    public class Program 
+    class Program
     {
-
-        public static void Main(string[] args)
+        public static void Main()
         {
-            
-            Director dir = new Director();
-            dir.StartGame();
-
+            Director director = new Director();
+            director.StartGame();
         }
-
     }
-
 }

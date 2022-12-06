@@ -1,40 +1,76 @@
-namespace jumper.Game 
+using System;
+
+namespace game
 {
-
-    public class TerminalService 
+    /// <summary>
+    /// <para>A service that handles terminal operations.</para>
+    /// <para>
+    /// The responsibility of a TerminalService is to provide input and output operations for the 
+    /// terminal.
+    /// </para>
+    /// </summary>
+    public class TerminalService
     {
-
+        /// <summary>
+        /// Constructs a new instance of TerminalService.
+        /// </summary>
         public TerminalService()
         {
         }
 
-        public void Output(string s)
+        /// <summary>
+        /// Gets numerical input from the terminal. Directs the user with the given prompt.
+        /// </summary>
+        /// <param name="prompt">The given prompt.</param>
+        /// <returns>Inputted number.</returns>
+        public int ReadNumber(string prompt)
         {
-            Console.WriteLine(s);
+            string rawValue = ReadText(prompt);
+            return int.Parse(rawValue, System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        public string Input(string s)
+        /// <summary>
+        /// Gets text input from the terminal. Directs the user with the given prompt.
+        /// </summary>
+        /// <param name="prompt">The given prompt.</param>
+        /// <returns>Inputted text.</returns>
+        public string ReadText(string prompt)
         {
-            Console.Write(s);
-            string response = Console.ReadLine();
-            Console.WriteLine();
-            return response;
+            Console.Write(prompt);
+            return Console.ReadLine();
         }
 
-        public void DisplayGame(GameBoard gb)
+
+        /// <summary>
+        /// Displays the given text on the terminal. 
+        /// </summary>
+        /// <param name="text">The given text.</param>
+        public void WriteText(string text)
         {
-            string spaces = "";
-            foreach (string letter in gb.GetSpaces())
+            Console.WriteLine(text);
+        }
+
+        public void WriteListOneLine(List<string> words)  
+        {   
+            for (int i = 0; i < words.Count; i++)
             {
-                spaces += letter + " ";
+                Console.Write(words[i]);
             }
-            Console.WriteLine(spaces);
+            // Creates separation line
             Console.WriteLine();
-            foreach (string line in gb.GetBoard())
+        }
+
+        public void WriteListManyLines(List<string> words) 
+        {   
+            for (int i = 0; i < words.Count; i++)
             {
-                Console.WriteLine(line);
+                Console.WriteLine(words[i]);
             }
+        }
+
+        public void WriteWinLine()
+        {
+            Console.WriteLine("Congragulations, you've guessed the word!");
         }
     }
-
 }

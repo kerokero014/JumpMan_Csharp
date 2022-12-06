@@ -1,66 +1,115 @@
-﻿namespace jumper.Game 
+namespace game
 {
-
+    /// <summary>
+    /// <para>A person who directs the game.</para>
+    /// <para>
+    /// The responsibility of a Director is to control the sequence of play.
+    /// </para>
+    /// </summary>
     public class Director
-    {
+    {   
+        private Jumper jumper = new Jumper();
+        private bool isPlaying = true;
+        private SecretWord secretword = new SecretWord();
+        private TerminalService terminalService = new TerminalService();
+        private List<string> guessList = new List<string>();
+        private List<string> parachute = new List<string>();
+        private string userInput;
+        private int valid;
 
-        private Jumper jumper;
-        private Puzzle puzzle = new Puzzle();
-        private GameBoard gameBoard;
-        private TerminalService term = new TerminalService();
-        private bool gameOver = false;
-
+        private char guess;
+        /// <summary>
+        /// Constructs a new instance of Director.
+        /// </summary>
         public Director()
         {
-            jumper = new Jumper(term);
-            puzzle.GenerateNewWord();
-            gameBoard = new GameBoard(puzzle.GetSecretWord());
+            this.guessList = secretword.GetGuessList();
+            this.parachute = jumper.getParachute();
+            userInput = "";
         }
 
+        /// <summary>
+        /// Starts the game by running the main game loop.
+        /// </summary>
         public void StartGame()
         {
-            while (!gameOver)
+            while (isPlaying)
             {
-                GetInput();
-                DoGameplay();
+                GetInputs();
+                DoUpdates();
+                DoOutputs();
             }
         }
 
-        public void GetInput()
+        /// <summary>
+        /// Gets the player's guess
+        /// </summary>
+        private void GetInputs()
         {
-            term.DisplayGame(gameBoard);
-            Console.WriteLine();
-            jumper.MakeGuess();
+            userInput = terminalService.ReadText("Enter your guess: ");            
+            terminalService.WriteText(" ");
+
+            while(int.TryParse(userInput, out valid))
+            {
+                terminalService.WriteText("Invalid input");
+                userInput = terminalService.ReadText("Enter your guess: ");
+                terminalService.WriteText(" ");                
+            }
+
+            while (!char.TryParse(userInput, out guess))
+            {
+                terminalService.WriteText("Invalid input");
+                userInput = terminalService.ReadText("Enter your guess: ");
+                terminalService.WriteText(" ");
+            }
+
+
         }
 
-        public void DoGameplay()
+        /// <summary>
+        /// 
+        /// </summary>
+        private void DoUpdates()
         {
-            string secretWord = puzzle.GetSecretWord();
-            char guess = jumper.GetGuess();
-            if (puzzle.GetisInWord(guess))
+            if (secretword.ContainsLetter(guess))
             {
-                gameBoard.addLetter(guess, secretWord);
-                if (gameBoard.isAWinner())
-                {
-                    gameOver = true;
-                    term.Output("You win!! The word was \"" + secretWord + "\".");
-                }
+                secretword.UpdateGuess(Convert.ToString(guess),secretword.word);
+                secretword.gameWon(guessList);
             }
             else
             {
-                term.Output($"Oops! " + guess + " is not in the word!");
-                gameBoard.SubParachute();
-                jumper.SubParachute();
-            }
-            
-            if (jumper.GetParachute() == 0)
-            {
-                gameOver = true;
-                term.Output("\nGame over, man!");
+                jumper.removeLine();
+                jumper.wrongGuesses();
+                jumper.gameOver();
             }
 
+            if(secretword.wordGuessed == true)
+            {
+                isPlaying = false;
+            }
+
+            if (jumper.isAlive == false)
+            {
+                isPlaying = false;
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void DoOutputs()
+        {   
+            terminalService.WriteListOneLine(this.guessList);
+            terminalService.WriteText("");
+            terminalService.WriteListManyLines(this.parachute);
+            if (secretword.wordGuessed == true)
+            {
+                terminalService.WriteWinLine();
+            }
+            if (jumper.isAlive == false)
+            {
+                terminalService.WriteText($"Game Over. The correct word was: {secretword.GetWord()}.");                
+            }
+        }
     }
-
 }
