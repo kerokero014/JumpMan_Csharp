@@ -4,13 +4,7 @@ using System.Collections.Generic;
 
 namespace Unit03.Game 
 {
-    /// <summary>
-    /// <para> </para>
-    /// <para>
-    /// The responsibility of Jumper is to keep track of
-    /// the changes in the parachute.
-    /// </para>
-    /// </summary>
+
     public class Jumper
     {
             private string top = "    ___\n";
@@ -23,18 +17,10 @@ namespace Unit03.Game
             private string air = " \n";
             private string ground = "^^^^^^^^^^^";
        
-
-        /// <summary>
-        /// Constructs a new instance of Jumper. 
-        /// </summary>
         public Jumper()
         {
         } 
-        /// <summary>
-        /// Creates the parachute.
-        /// </summary>
-        /// <param name="lives">The number of lives not exceeding 8.</param>
-        /// <returns>List containing parts of parachute remaining.</returns>
+ 
         public List<string> BuildParachute(int lives){
             switch(lives){
                 case 7: 
