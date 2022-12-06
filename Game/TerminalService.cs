@@ -1,6 +1,7 @@
 using System;
 
-namespace game
+
+namespace Unit03.Game
 {
     /// <summary>
     /// <para>A service that handles terminal operations.</para>
@@ -19,17 +20,6 @@ namespace game
         }
 
         /// <summary>
-        /// Gets numerical input from the terminal. Directs the user with the given prompt.
-        /// </summary>
-        /// <param name="prompt">The given prompt.</param>
-        /// <returns>Inputted number.</returns>
-        public int ReadNumber(string prompt)
-        {
-            string rawValue = ReadText(prompt);
-            return int.Parse(rawValue, System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
         /// Gets text input from the terminal. Directs the user with the given prompt.
         /// </summary>
         /// <param name="prompt">The given prompt.</param>
@@ -40,7 +30,6 @@ namespace game
             return Console.ReadLine();
         }
 
-
         /// <summary>
         /// Displays the given text on the terminal. 
         /// </summary>
@@ -50,27 +39,14 @@ namespace game
             Console.WriteLine(text);
         }
 
-        public void WriteListOneLine(List<string> words)  
-        {   
-            for (int i = 0; i < words.Count; i++)
-            {
-                Console.Write(words[i]);
-            }
-            // Creates separation line
-            Console.WriteLine();
-        }
-
-        public void WriteListManyLines(List<string> words) 
-        {   
-            for (int i = 0; i < words.Count; i++)
-            {
-                Console.WriteLine(words[i]);
-            }
-        }
-
-        public void WriteWinLine()
+        public void WriteList (List<string> letters)
         {
-            Console.WriteLine("Congragulations, you've guessed the word!");
+            int len = letters.Count;
+            for (int i = 0; i < len; i++)
+            {
+                Console.Write($"{letters[i]} ");
+            }
+            Console.WriteLine("");
         }
     }
 }

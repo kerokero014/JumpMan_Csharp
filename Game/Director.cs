@@ -1,4 +1,4 @@
-namespace game
+namespace Unit03.Game
 {
     /// <summary>
     /// <para>A person who directs the game.</para>
@@ -7,25 +7,21 @@ namespace game
     /// </para>
     /// </summary>
     public class Director
-    {   
+    {
         private Jumper jumper = new Jumper();
-        private bool isPlaying = true;
-        private SecretWord secretword = new SecretWord();
+        private bool wordFound = false;
+        private Puzzle puzzle = new Puzzle();
         private TerminalService terminalService = new TerminalService();
-        private List<string> guessList = new List<string>();
-        private List<string> parachute = new List<string>();
-        private string userInput;
-        private int valid;
 
-        private char guess;
+        private string currLetter = "";
+        private bool isLetter = false;
+        private static int lives = 8;
+
         /// <summary>
         /// Constructs a new instance of Director.
         /// </summary>
         public Director()
         {
-            this.guessList = secretword.GetGuessList();
-            this.parachute = jumper.getParachute();
-            userInput = "";
         }
 
         /// <summary>
@@ -33,83 +29,56 @@ namespace game
         /// </summary>
         public void StartGame()
         {
-            while (isPlaying)
+            while (!wordFound && lives > 0)
             {
+                DoOutputs();
                 GetInputs();
                 DoUpdates();
-                DoOutputs();
             }
+
+            // Display the end of game messages. 
+            DoOutputs();
+            if (wordFound)
+            {
+                terminalService.WriteText("Great job! You found the word!");
+            }
+            else if (lives == 0)
+            {
+                terminalService.WriteText("You didn't find the word :(");
+                terminalService.WriteText("Better luck next time :)).\n");
+            }
+            
         }
 
         /// <summary>
-        /// Gets the player's guess
+        /// Gets the letter guess from the player.
         /// </summary>
         private void GetInputs()
         {
-            userInput = terminalService.ReadText("Enter your guess: ");            
+            currLetter = terminalService.ReadText("Guess a leter [a-z]: ");
             terminalService.WriteText(" ");
-
-            while(int.TryParse(userInput, out valid))
-            {
-                terminalService.WriteText("Invalid input");
-                userInput = terminalService.ReadText("Enter your guess: ");
-                terminalService.WriteText(" ");                
-            }
-
-            while (!char.TryParse(userInput, out guess))
-            {
-                terminalService.WriteText("Invalid input");
-                userInput = terminalService.ReadText("Enter your guess: ");
-                terminalService.WriteText(" ");
-            }
-
-
         }
 
         /// <summary>
-        /// 
+        /// Compares the guess and checks to see if the word has been found
         /// </summary>
         private void DoUpdates()
         {
-            if (secretword.ContainsLetter(guess))
+            isLetter = puzzle.CompareLetter(currLetter);
+            if (!isLetter)
             {
-                secretword.UpdateGuess(Convert.ToString(guess),secretword.word);
-                secretword.gameWon(guessList);
+                lives -= 1;
             }
-            else
-            {
-                jumper.removeLine();
-                jumper.wrongGuesses();
-                jumper.gameOver();
-            }
-
-            if(secretword.wordGuessed == true)
-            {
-                isPlaying = false;
-            }
-
-            if (jumper.isAlive == false)
-            {
-                isPlaying = false;
-            }
+            wordFound = puzzle.CompareProgress();
         }
 
         /// <summary>
-        /// 
+        /// Displays the letters guessed and the the state of the parachute.
         /// </summary>
         private void DoOutputs()
-        {   
-            terminalService.WriteListOneLine(this.guessList);
-            terminalService.WriteText("");
-            terminalService.WriteListManyLines(this.parachute);
-            if (secretword.wordGuessed == true)
-            {
-                terminalService.WriteWinLine();
-            }
-            if (jumper.isAlive == false)
-            {
-                terminalService.WriteText($"Game Over. The correct word was: {secretword.GetWord()}.");                
-            }
+        {
+            terminalService.WriteList(puzzle.GetGuessedLetters());
+            terminalService.WriteList(jumper.BuildParachute(lives));
         }
     }
 }
